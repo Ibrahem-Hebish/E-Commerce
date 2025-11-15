@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Aq5VFk+R6AY=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Super magic\\source\\repos\\ECommerce\\ECommerce.Domain\\ECommerce.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Super magic\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
