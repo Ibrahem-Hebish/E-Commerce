@@ -1,33 +1,18 @@
 {
-    "ConnectionString": "Server=.;Database=E_Commerce;Integrated Security = SSPI;Trust Server Certificate = true",
+  "ConnectionString": "Server=.;Database=E_Commerce;Integrated Security = SSPI;Trust Server Certificate = true",
 
-  "Serilog": {
-    "Using": [ "Serilog.Sinks.MSSqlServer", "Serilog.Sinks.Console" ],
-    "MinimumLevel": {
-      "Default": "Information",
-      "Override": {
-        "Microsoft.AspNetCore": "Warning"
-      }
-    },
-    "WriteTo": [
-      {
-        "Name": "Console"
-      },
-      {
-        "Name": "MSSqlServer",
-        "Args": {
-          "ConnectionString": "server = . ; database = E_Commerce; Integrated Security = SSPI;TrustServerCertificate = true;Encrypt = false",
-          "tableName": "Logging",
-          "autoCreateSqlTable": true
-        }
-      }
-    ]
-  },
   "Email": {
     "Port": 587,
     "ClientEmail": "Smtp.gmail.com",
     "Email": "ibrahemhebish@gmail.com",
     "Name": "Ibrahem Hebish"
+  },
+
+  "jwt": {
+    "Issuer": "E-Commerce",
+    "Audience": "http://127.0.0.1:5500",
+    "AccessTokenLifeTime": 15,
+    "RefreshTokenLifeTime" : 43200
   }
 
 }

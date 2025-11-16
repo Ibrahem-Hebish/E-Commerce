@@ -1,5 +1,4 @@
-﻿using ECommerce.Infrustructure.Persistance.Interceptors;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace ECommerce.Api;
 
@@ -10,8 +9,7 @@ public static class DependencyInjection
 
         services.AddDbContext<AppDbContext>(opt =>
         {
-            opt.UseSqlServer(configuration.GetConnectionString("ConnectionString"))
-                .AddInterceptors(new SoftDeleteInterceptor());
+            opt.UseSqlServer(configuration.GetConnectionString("ConnectionString"));
         });
 
         services.AddControllers();

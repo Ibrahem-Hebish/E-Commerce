@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Infrustructure;
+﻿using Hangfire;
+
+namespace ECommerce.Infrustructure;
 
 public static class DependencyInjection
 {
@@ -9,19 +11,25 @@ public static class DependencyInjection
             .AddUserSecrets(typeof(DependencyInjection).Assembly)
             .Build();
 
+        var connectionString = config.GetSection("ConnectionString").Value;
+
+        services.AddHangfire(config =>
+        {
+            config.UseSqlServerStorage(connectionString);
+        });
+
+        services.AddHangfireServer();
+
         services.Configure<EmailSettings>(config.GetSection("Email"));
         services.AddTransient<IEmailService, EmailService>();
-
-        services.AddSerilog();
-
-        Log.Logger = new LoggerConfiguration()
-                         .ReadFrom.Configuration(config)
-                         .CreateLogger();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped<IUserCommandRepository, UserCommandRepository>();
         services.AddScoped<IUserQueryRepository, UserQueryRepository>();
+
+        services.AddScoped<IUserTokenCommandRepository, UserTokenCommandRepository>();
+        services.AddScoped<IUserTokenQueryRepository, UserTokenQueryRepository>();
 
         services.AddScoped<IRoleCommandRepository, RoleCommandRepository>();
         services.AddScoped<IRoleQueryRepository, RoleQueryRepository>();
@@ -36,6 +44,38 @@ public static class DependencyInjection
         services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
 
         services.AddTransient<IPasswordHashingService, PasswordHashingService>();
+
+
+
+        services.Configure<JwtOptions>(config.GetSection("jwt"));
+
+        var jwt = config.GetSection("jwt").Get<JwtOptions>();
+
+        var signingKey = config["jwtsigningkey"];
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
+                {
+                    opt.SaveToken = true;
+
+                    opt.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = jwt!.Issuer,
+                        ValidateAudience = true,
+                        ValidAudience = jwt!.Audience,
+                        ClockSkew = TimeSpan.Zero,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                               Encoding.UTF8.GetBytes(signingKey!)),
+                    };
+                }
+                );
+
+        services.AddAuthorization();
+
+        services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         return services;
     }

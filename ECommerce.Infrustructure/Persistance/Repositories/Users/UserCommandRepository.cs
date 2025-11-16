@@ -1,6 +1,4 @@
-﻿using ECommerce.Domain.Repositories.Users;
-
-namespace ECommerce.Infrustructure.Persistance.Repositories.Users;
+﻿namespace ECommerce.Infrustructure.Persistance.Repositories.Users;
 
 public class UserCommandRepository(AppDbContext dbContext) : IUserCommandRepository
 {

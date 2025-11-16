@@ -1,0 +1,20 @@
+﻿global using AutoMapper;
+global using ECommerce.Application.Dtos.Users;
+global using ECommerce.Application.Dtos.UserTokens;
+global using ECommerce.Application.GenericRespons;
+global using ECommerce.Application.Services.Authentication;
+global using ECommerce.Application.Services.Email;
+global using ECommerce.Application.Services.PasswordHashing;
+global using ECommerce.Application.Services.UnitOfWork;
+global using ECommerce.Application.Validations;
+global using ECommerce.Domain.Entities;
+global using ECommerce.Domain.Repositories.Roles;
+global using ECommerce.Domain.Repositories.Users;
+global using ECommerce.Domain.Repositories.UserTokens;
+global using FluentValidation;
+global using MediatR;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.Extensions.DependencyInjection;
+global using Serilog;
+global using System.Net;
+

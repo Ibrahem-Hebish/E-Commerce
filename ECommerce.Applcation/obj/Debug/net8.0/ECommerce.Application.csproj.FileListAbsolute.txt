@@ -13,3 +13,5 @@ C:\Users\Super magic\source\repos\ECommerce\ECommerce.Applcation\obj\Debug\net8.
 C:\Users\Super magic\source\repos\ECommerce\ECommerce.Applcation\obj\Debug\net8.0\refint\ECommerce.Application.dll
 C:\Users\Super magic\source\repos\ECommerce\ECommerce.Applcation\obj\Debug\net8.0\ECommerce.Application.pdb
 C:\Users\Super magic\source\repos\ECommerce\ECommerce.Applcation\obj\Debug\net8.0\ref\ECommerce.Application.dll
+C:\Users\Super magic\source\repos\ECommerce\ECommerce.Applcation\obj\Debug\net8.0\ECommerce.Application.sourcelink.json
+C:\Users\Super magic\source\repos\ECommerce\ECommerce.Applcation\bin\Debug\net8.0\applicationjson.json

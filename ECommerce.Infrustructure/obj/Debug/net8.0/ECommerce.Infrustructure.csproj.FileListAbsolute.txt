@@ -18,3 +18,5 @@ C:\Users\Super magic\source\repos\ECommerce\ECommerce.Infrustructure\obj\Debug\n
 C:\Users\Super magic\source\repos\ECommerce\ECommerce.Infrustructure\obj\Debug\net8.0\ECommerce.Infrustructure.pdb
 C:\Users\Super magic\source\repos\ECommerce\ECommerce.Infrustructure\obj\Debug\net8.0\ECommerce.Infrustructure.genruntimeconfig.cache
 C:\Users\Super magic\source\repos\ECommerce\ECommerce.Infrustructure\obj\Debug\net8.0\ref\ECommerce.Infrustructure.dll
+C:\Users\Super magic\source\repos\ECommerce\ECommerce.Infrustructure\obj\Debug\net8.0\ECommerce.Infrustructure.sourcelink.json
+C:\Users\Super magic\source\repos\ECommerce\ECommerce.Infrustructure\bin\Debug\net8.0\applicationjson.json

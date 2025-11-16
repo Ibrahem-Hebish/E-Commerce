@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace ECommerce.Application.GenericRespons;
+﻿namespace ECommerce.Application.GenericRespons;
 public class ResponseHandler
 {
     public static Response<T> Created<T>(string message = null!)
@@ -21,7 +19,7 @@ public class ResponseHandler
             IsSuccess = true,
         };
     }
-    public static Response<T> NotFouned<T>(string message = null!)
+    public static Response<T> NotFound<T>(string message = null!)
     {
         return new Response<T>()
         {

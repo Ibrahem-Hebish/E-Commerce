@@ -82,4 +82,5 @@ public class Product : ISoftDeletable
         UpdatedAt = DateTime.UtcNow;
     }
 
+
 }

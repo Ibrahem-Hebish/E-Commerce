@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Api;
+﻿using Hangfire;
+
+namespace ECommerce.Api;
 
 public static class AppExtentions
 {
@@ -22,7 +24,11 @@ public static class AppExtentions
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
+
         app.UseAuthorization();
+
+        app.UseHangfireDashboard("/hangfire");
 
         app.MapControllers();
 

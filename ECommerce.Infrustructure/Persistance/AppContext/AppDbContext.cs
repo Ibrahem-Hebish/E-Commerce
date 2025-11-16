@@ -1,25 +1,26 @@
-﻿using ECommerce.Infrustructure.Persistance.Interceptors;
+﻿using MediatR;
 
 namespace ECommerce.Infrustructure.Persistance.AppContext;
 
 public class AppDbContext : DbContext
 {
-    //private readonly IPublisher _publisher;
+    private readonly IPublisher _publisher;
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<UserToken> UserTokens { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Order> Orders { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DbSet<OrderItem> Items { get; set; }
     public DbSet<OrderTrack> OrderTracks { get; set; }
 
-    public AppDbContext()
-    {
+    //public AppDbContext()
+    //{
 
-    }
-    public AppDbContext(DbContextOptions<AppDbContext> options/*, IPublisher publisher*/) : base(options)
+    //}
+    public AppDbContext(DbContextOptions<AppDbContext> options, IPublisher publisher) : base(options)
     {
-        //_publisher = publisher;
+        _publisher = publisher;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -32,8 +33,7 @@ public class AppDbContext : DbContext
 
         var connectionString = config.GetSection("ConnectionString").Value;
 
-        optionsBuilder.UseSqlServer(connectionString)
-                        .AddInterceptors(new SoftDeleteInterceptor());
+        optionsBuilder.UseSqlServer(connectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,11 +52,21 @@ public class AppDbContext : DbContext
             .SelectMany(x => x.DomainEvents)
             .ToList();
 
+        var softDeletEntities = ChangeTracker.Entries<ISoftDeletable>()
+            .Where(e => e.State == EntityState.Deleted);
+
+        foreach (var entry in softDeletEntities)
+        {
+            entry.State = EntityState.Modified;
+
+            entry.Entity.Delete();
+        }
+
         var result = await base.SaveChangesAsync(cancellationToken);
 
         foreach (var domainEvent in domainEvents)
         {
-            //await _publisher.Publish(domainEvent, cancellationToken);
+            await _publisher.Publish(domainEvent, cancellationToken);
         }
 
         return result;

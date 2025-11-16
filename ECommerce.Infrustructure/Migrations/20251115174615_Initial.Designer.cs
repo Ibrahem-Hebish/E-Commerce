@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ECommerce.Infrustructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251115003331_Initial")]
+    [Migration("20251115174615_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -246,6 +246,39 @@ namespace ECommerce.Infrustructure.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("ECommerce.Domain.Entities.UserToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AccessToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("AccessTokenExpireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("RefreshToken")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RefreshTokenExpireDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserTokens", (string)null);
+                });
+
             modelBuilder.Entity("ECommerce.Domain.Entities.Order", b =>
                 {
                     b.HasOne("ECommerce.Domain.Entities.User", "Customer")
@@ -306,6 +339,17 @@ namespace ECommerce.Infrustructure.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("ECommerce.Domain.Entities.UserToken", b =>
+                {
+                    b.HasOne("ECommerce.Domain.Entities.User", "User")
+                        .WithMany("UserTokens")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ECommerce.Domain.Entities.Category", b =>
                 {
                     b.Navigation("Products");
@@ -326,6 +370,8 @@ namespace ECommerce.Infrustructure.Migrations
             modelBuilder.Entity("ECommerce.Domain.Entities.User", b =>
                 {
                     b.Navigation("Orders");
+
+                    b.Navigation("UserTokens");
                 });
 #pragma warning restore 612, 618
         }

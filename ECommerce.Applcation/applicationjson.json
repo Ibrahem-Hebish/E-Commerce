@@ -1,0 +1,25 @@
+{
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.MSSqlServer", "Serilog.Sinks.Console" ],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft.AspNetCore": "Warning"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console"
+      },
+      {
+        "Name": "MSSqlServer",
+        "Args": {
+          "ConnectionString": "server = . ; database = E_Commerce; Integrated Security = SSPI;TrustServerCertificate = true;Encrypt = false",
+          "tableName": "Logging",
+          "autoCreateSqlTable": true
+        }
+      }
+    ]
+  }
+
+}
