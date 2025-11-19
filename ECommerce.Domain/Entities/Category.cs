@@ -8,4 +8,22 @@ public class Category
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     public List<Product> Products { get; set; }
+
+
+    public void Update(string? name, string? description)
+    {
+        if (!string.IsNullOrWhiteSpace(name))
+        {
+            Name = name;
+
+            UpdatedAt = DateTime.UtcNow;
+        }
+        if (!string.IsNullOrWhiteSpace(description))
+        {
+            Description = description;
+
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+    }
 }

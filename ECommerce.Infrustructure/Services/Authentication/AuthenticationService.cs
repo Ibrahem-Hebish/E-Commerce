@@ -16,7 +16,7 @@ public class AuthenticationService(
         }
         catch
         {
-            throw new InvalidOperationException("Signing key is missing from configuration.");
+            throw new KeyNotFoundException("Signing key is missing from configuration.");
         }
 
         UserToken userToken = new()
@@ -43,7 +43,7 @@ public class AuthenticationService(
         var signingkey = configuration["jwtsigningkey"];
 
         if (string.IsNullOrWhiteSpace(signingkey))
-            throw new InvalidOperationException("Signing key is missing from configuration.");
+            throw new KeyNotFoundException("Signing key is missing from configuration.");
 
         var tokenDescriptor = new SecurityTokenDescriptor()
         {

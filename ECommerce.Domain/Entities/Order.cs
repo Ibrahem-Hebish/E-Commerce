@@ -9,6 +9,7 @@ public class Order : Entity
     public DateTime? UpdatedAt { get; set; }
     public decimal TotalAmount { get; set; }
     public OrderStatus Status { get; private set; } = OrderStatus.Pending;
+    public Guid IdempotencyKey { get; set; }
     public Guid CustomerId { get; set; }
     public User Customer { get; set; }
     public List<OrderItem> OrderItems { get; set; } = [];

@@ -11,6 +11,18 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasIndex(p => new { p.Name, p.CategoryId })
             .IsUnique();
 
+        builder.Property(p => p.TotalPrice)
+                .HasComputedColumnSql(
+                    "CASE WHEN [HasDiscount] = 0 THEN [Price] ELSE [Price] - ([Price] * [DiscountPercentage] / 100) END",
+                    stored: false
+                );
+
+        builder.Property(p => p.RowVersion)
+            .IsRowVersion();
+
+        builder.HasIndex(p => p.CreatedAt)
+            .IsUnique(false);
+
         builder.Property(p => p.Price)
             .IsRequired();
 

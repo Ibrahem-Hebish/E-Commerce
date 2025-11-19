@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using ECommerce.Domain.Common.SoftDeleting;
+using MediatR;
 
 namespace ECommerce.Infrustructure.Persistance.AppContext;
 
@@ -14,10 +15,10 @@ public class AppDbContext : DbContext
     public DbSet<OrderItem> Items { get; set; }
     public DbSet<OrderTrack> OrderTracks { get; set; }
 
-    //public AppDbContext()
-    //{
+    public AppDbContext()
+    {
 
-    //}
+    }
     public AppDbContext(DbContextOptions<AppDbContext> options, IPublisher publisher) : base(options)
     {
         _publisher = publisher;

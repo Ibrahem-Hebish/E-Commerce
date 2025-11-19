@@ -1,5 +1,4 @@
-﻿
-namespace ECommerce.Application.Features.Users.DeactivateUser;
+﻿namespace ECommerce.Application.Features.Users.DeactivateUser;
 
 public class DeactivateUserCommandHandler(
     IUserQueryRepository userQueryRepository,
@@ -15,6 +14,9 @@ public class DeactivateUserCommandHandler(
 
         if (user is null)
             return NotFound<string>();
+
+        if (user.Role.Name == "Admin")
+            return BadRequest<string>("Cannot deactivate an admin user");
 
         userCommandRepository.Delete(user);
 

@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Api.Controllers;
 
-public class UserController(ISender sender) : AppControllerBase
+public class UsersController(ISender sender) : AppControllerBase
 {
     [HttpGet]
     [Authorize(Roles = "Admin")]

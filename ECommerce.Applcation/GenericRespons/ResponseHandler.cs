@@ -10,6 +10,17 @@ public class ResponseHandler
             IsSuccess = true,
         };
     }
+
+    public static Response<T> Created<T>(T data)
+    {
+        return new Response<T>()
+        {
+            Data = data,
+            StatusCode = HttpStatusCode.Created,
+            Message = "Created Successfully",
+            IsSuccess = true,
+        };
+    }
     public static Response<T> Deleted<T>(string message = null!)
     {
         return new Response<T>()

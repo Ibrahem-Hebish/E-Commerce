@@ -1,4 +1,5 @@
-﻿using Hangfire;
+﻿using ECommerce.Api.Middlewares;
+using Hangfire;
 
 namespace ECommerce.Api;
 
@@ -21,6 +22,8 @@ public static class AppExtentions
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseMiddleware<GlobalExceptionHandler>();
 
         app.UseHttpsRedirection();
 

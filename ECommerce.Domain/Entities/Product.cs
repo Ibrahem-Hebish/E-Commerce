@@ -1,4 +1,4 @@
-﻿using ECommerce.Domain.SoftDeleting;
+﻿using ECommerce.Domain.Common.SoftDeleting;
 
 namespace ECommerce.Domain.Entities;
 
@@ -11,19 +11,27 @@ public class Product : ISoftDeletable
     public int StockQuantity { get; set; }
     public bool HasDiscount { get; set; }
     public int DiscountPercentage { get; set; }
-    public decimal TotalPrice
-    {
-        get
-        {
-            if (!HasDiscount) return Price;
 
-            return Price - (Price * DiscountPercentage / 100);
-        }
-    }
+    public decimal TotalPrice { get; private set; }
+
+    //public decimal TotalPrice
+    //{
+    //    get
+    //    {
+    //        if (!HasDiscount) return Price;
+
+    //        return Price - (Price * DiscountPercentage / 100);
+    //    }
+    //    private set
+    //    {
+
+    //    }
+    //}
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     public bool IsDeleted { get; set; }
     public DateTime? DeletedAt { get; set; }
+    public byte[] RowVersion { get; set; }
     public Guid? CategoryId { get; set; }
     public Category? Category { get; set; }
 
@@ -34,6 +42,7 @@ public class Product : ISoftDeletable
         {
             throw new ArgumentOutOfRangeException(nameof(percentage), "Discount percentage must be between 0 and 100.");
         }
+
         HasDiscount = true;
         DiscountPercentage = percentage;
         UpdatedAt = DateTime.UtcNow;
@@ -50,6 +59,7 @@ public class Product : ISoftDeletable
         {
             throw new ArgumentOutOfRangeException(nameof(newPrice), "Price cannot be negative.");
         }
+
         Price = newPrice;
         UpdatedAt = DateTime.UtcNow;
     }
@@ -80,6 +90,20 @@ public class Product : ISoftDeletable
         Category = category;
         CategoryId = category.Id;
         UpdatedAt = DateTime.UtcNow;
+    }
+    public void Update(string? name, string? description, decimal? price, int? qunatity)
+    {
+        if (name is not null)
+            Name = name;
+
+        if (description is not null)
+            Description = description;
+
+        if (price is not null)
+            Price = price.Value;
+
+        if (qunatity is not null)
+            StockQuantity = qunatity.Value;
     }
 
 

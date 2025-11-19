@@ -1,8 +1,4 @@
-﻿
-using ECommerce.Application.BackgroundJobs;
-using Microsoft.Extensions.Configuration;
-
-namespace ECommerce.Application;
+﻿namespace ECommerce.Application;
 
 public static class DependancyInjection
 {
@@ -10,6 +6,8 @@ public static class DependancyInjection
     {
 
         services.AddHttpContextAccessor();
+
+        services.AddSingleton<ICacheGroups, CacheGroups>();
 
         var config = new ConfigurationBuilder()
            .AddJsonFile("applicationjson.json")
@@ -32,6 +30,9 @@ public static class DependancyInjection
         services.AddMediatR(opt =>
         {
             opt.RegisterServicesFromAssembly(typeof(DependancyInjection).Assembly);
+
+            opt.AddOpenBehavior(typeof(ReseatCachingPipeline<,>));
+            opt.AddOpenBehavior(typeof(QueryCachingPipeline<,>));
         });
 
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));

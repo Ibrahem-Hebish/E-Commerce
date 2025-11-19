@@ -1,5 +1,5 @@
 ﻿using ECommerce.Domain.Common;
-using ECommerce.Domain.SoftDeleting;
+using ECommerce.Domain.Common.SoftDeleting;
 
 namespace ECommerce.Domain.Entities;
 
