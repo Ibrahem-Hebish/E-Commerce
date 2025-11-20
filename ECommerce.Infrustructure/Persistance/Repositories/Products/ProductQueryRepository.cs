@@ -83,4 +83,9 @@ public class ProductQueryRepository(AppDbContext dbContext) : IProductQueryRepos
         }
     }
 
+    public async Task<List<Product>> GetByIdsAsync(List<Guid> Ids) => await dbContext.Products
+        .AsTracking()
+        .Where(p => Ids.Contains(p.Id))
+        .ToListAsync();
+
 }

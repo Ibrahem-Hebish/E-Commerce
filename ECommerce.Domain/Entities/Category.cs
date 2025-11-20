@@ -7,7 +7,7 @@ public class Category
     public string Description { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
-    public List<Product> Products { get; set; }
+    public virtual List<Product> Products { get; set; }
 
 
     public void Update(string? name, string? description)

@@ -1,5 +1,4 @@
-﻿using ECommerce.Application.BackgroundJobs;
-using ECommerce.Domain.Events;
+﻿using ECommerce.Domain.Events;
 using Hangfire;
 
 namespace ECommerce.Application.Features.Authentication.Register;

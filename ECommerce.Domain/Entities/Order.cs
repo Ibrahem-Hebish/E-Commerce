@@ -4,67 +4,54 @@ namespace ECommerce.Domain.Entities;
 
 public class Order : Entity
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
-    public DateTime OrderDate { get; private set; } = DateTime.UtcNow;
+    public Guid Id { get; private set; }
+    public DateTime OrderDate { get; private set; }
     public DateTime? UpdatedAt { get; set; }
     public decimal TotalAmount { get; set; }
-    public OrderStatus Status { get; private set; } = OrderStatus.Pending;
+    public OrderStatus Status { get; private set; }
     public Guid IdempotencyKey { get; set; }
     public Guid CustomerId { get; set; }
-    public User Customer { get; set; }
-    public List<OrderItem> OrderItems { get; set; } = [];
-    public List<OrderTrack> OrderTracks { get; set; } = [];
+    public virtual User Customer { get; set; }
+    public virtual List<OrderItem> OrderItems { get; set; } = [];
+    public virtual List<OrderTrack> OrderTracks { get; set; } = [];
+
+    public Order() { }
+    public Order(User customer, List<OrderItem> items, Guid idempotancyKey)
+    {
+        Id = Guid.NewGuid();
+        OrderDate = DateTime.UtcNow;
+        Status = OrderStatus.Pending;
+        CustomerId = customer.Id;
+        OrderItems = items;
+        IdempotencyKey = idempotancyKey;
+
+        DomainEvents.Add(new OrderCreatedEvent(customer.Email, Id));
+
+        CalculateTotalAmount();
+    }
 
 
-    public void AddOrderItem(OrderItem item)
-    {
-        OrderItems.Add(item);
-    }
-    public void RemoveOrderItem(OrderItem item)
-    {
-        OrderItems.Remove(item);
-    }
-    public void AddOrderTrack(OrderTrack track)
-    {
-        OrderTracks.Add(track);
-    }
-    public void RemoveOrderTrack(OrderTrack track)
-    {
-        OrderTracks.Remove(track);
-    }
-    public void ConfirmOrder()
+    public void Confirm()
     {
         if (Status != OrderStatus.Pending)
             throw new InvalidOperationException("Only pending orders can be confirmed.");
 
         Status = OrderStatus.Completed;
 
-        AddOrderTrack(new OrderTrack
-        {
-            Id = Guid.NewGuid(),
-            Status = OrderStatus.Completed,
-            CreatedAt = DateTime.UtcNow,
-            OrderId = Id,
-            Order = this
-        });
+        UpdatedAt = DateTime.UtcNow;
 
-        DomainEvents.Add(new OrderCompletedEvent(Customer.Email, "Your order completed successfully.", this));
+        DomainEvents.Add(new OrderCompletedEvent(Customer.Email, Id));
     }
-    public void CancelOrder()
+    public void Cancel()
     {
         if (Status != OrderStatus.Pending)
             throw new InvalidOperationException("Only pending orders can be canceled.");
 
         Status = OrderStatus.Canceled;
-        AddOrderTrack(new OrderTrack
-        {
-            Id = Guid.NewGuid(),
-            Status = OrderStatus.Canceled,
-            CreatedAt = DateTime.UtcNow,
-            OrderId = Id,
-            Order = this
-        });
-        DomainEvents.Add(new OrderCanceledEvent(Customer.Email, "Your order has been canceled.", this));
+
+        UpdatedAt = DateTime.UtcNow;
+
+        DomainEvents.Add(new OrderCanceledEvent(Customer.Email, Id));
     }
     public void CalculateTotalAmount()
     {

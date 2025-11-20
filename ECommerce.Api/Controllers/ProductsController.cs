@@ -1,7 +1,4 @@
-﻿using ECommerce.Application.Features.Products.SortProducts;
-using Serilog;
-using System.Diagnostics;
-
+﻿
 namespace ECommerce.Api.Controllers;
 
 public class ProductsController(ISender sender) : AppControllerBase
@@ -24,7 +21,6 @@ public class ProductsController(ISender sender) : AppControllerBase
     }
 
     [HttpGet("category/{id:Guid}")]
-    [Authorize]
     public async Task<IActionResult> GetByCategoryId(Guid id)
     {
         var result = await sender.Send(new GetProductsByCategoryIdQuery(id));
@@ -33,7 +29,7 @@ public class ProductsController(ISender sender) : AppControllerBase
     }
 
     [HttpGet("paginate")]
-    // [Authorize]
+    [Authorize]
     public async Task<IActionResult> Paginate([FromQuery] PaginateProductsQuery command)
     {
         var result = await sender.Send(command);
@@ -42,22 +38,15 @@ public class ProductsController(ISender sender) : AppControllerBase
     }
 
     [HttpGet("sort-by")]
-    //[Authorize]
+    [Authorize]
     public async Task<IActionResult> SortBy([FromQuery] SortProductsQuery command)
     {
-        var clock = new Stopwatch();
-
-        clock.Start();
         var result = await sender.Send(command);
 
-        clock.Stop();
-
-        Log.Information(clock.ElapsedMilliseconds.ToString());
         return NewResponse(result);
     }
 
     [HttpGet("search")]
-    [Authorize]
     public async Task<IActionResult> Search(string name)
     {
         var result = await sender.Send(new SearchProductsByNameQuery(name));

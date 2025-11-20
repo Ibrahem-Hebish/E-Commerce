@@ -34,7 +34,8 @@ public class AppDbContext : DbContext
 
         var connectionString = config.GetSection("ConnectionString").Value;
 
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder
+            .UseSqlServer(connectionString);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

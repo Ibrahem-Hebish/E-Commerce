@@ -18,7 +18,7 @@ public class CategorisController(ISender sender) : AppControllerBase
     }
 
     [HttpGet("{id:Guid}")]
-    //[Authorize]
+    [Authorize]
     public async Task<IActionResult> GetById(Guid id)
     {
         var result = await sender.Send(new GetCategoryByIdQuery(id));
@@ -27,7 +27,7 @@ public class CategorisController(ISender sender) : AppControllerBase
     }
 
     [HttpPatch("{id:guid}")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(Guid id, UpdateCategoryDto dto)
     {
         var command = new UpdateCategoryCommand(id, dto);
@@ -38,7 +38,7 @@ public class CategorisController(ISender sender) : AppControllerBase
     }
 
     [HttpPost]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create(CreateCategoryCommand command)
     {
         var result = await sender.Send(command);
@@ -47,7 +47,7 @@ public class CategorisController(ISender sender) : AppControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var result = await sender.Send(new DeleteCategoryCommand(id));

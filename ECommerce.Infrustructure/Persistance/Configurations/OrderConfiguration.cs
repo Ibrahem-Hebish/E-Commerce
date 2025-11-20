@@ -22,6 +22,9 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.Property(o => o.Status)
             .HasConversion<int>();
 
+        builder.Navigation(o => o.Customer)
+            .AutoInclude();
+
         builder.HasMany(o => o.OrderTracks)
             .WithOne(ot => ot.Order)
             .HasForeignKey(ot => ot.OrderId)

@@ -13,7 +13,14 @@ public static class DependencyInjection
 
         services.AddDbContext<AppDbContext>(opt =>
         {
-            opt.UseSqlServer(configuration.GetConnectionString("ConnectionString"));
+            opt
+            .UseLazyLoadingProxies()
+            .UseSqlServer(configuration.GetConnectionString("ConnectionString"),
+             sqlOptions => sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 10,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null
+                    ));
         });
 
         services.AddScoped<GlobalExceptionHandler>();

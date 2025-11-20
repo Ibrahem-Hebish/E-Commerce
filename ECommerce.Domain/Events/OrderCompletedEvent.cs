@@ -1,6 +1,8 @@
 ﻿namespace ECommerce.Domain.Events;
 
-public class OrderCompletedEvent(string email, string message, Order order) : DomainEvent
+public class OrderCompletedEvent(string email, Guid orderId) : DomainEvent
 {
 
+    public string Email { get; } = email;
+    public Guid OrderId { get; } = orderId;
 }

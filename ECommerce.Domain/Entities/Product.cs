@@ -13,27 +13,13 @@ public class Product : ISoftDeletable
     public int DiscountPercentage { get; set; }
 
     public decimal TotalPrice { get; private set; }
-
-    //public decimal TotalPrice
-    //{
-    //    get
-    //    {
-    //        if (!HasDiscount) return Price;
-
-    //        return Price - (Price * DiscountPercentage / 100);
-    //    }
-    //    private set
-    //    {
-
-    //    }
-    //}
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     public bool IsDeleted { get; set; }
     public DateTime? DeletedAt { get; set; }
     public byte[] RowVersion { get; set; }
     public Guid? CategoryId { get; set; }
-    public Category? Category { get; set; }
+    public virtual Category? Category { get; set; }
 
 
     public void ApplyDiscount(int percentage)

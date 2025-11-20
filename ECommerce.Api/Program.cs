@@ -1,9 +1,8 @@
-using ECommerce.Application;
-using ECommerce.Infrustructure;
-
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddUserSecrets(typeof(Program).Assembly);
+builder.Configuration
+    .AddEnvironmentVariables()
+    .AddUserSecrets(typeof(Program).Assembly);
 
 builder.Services.AddInfrustructure();
 

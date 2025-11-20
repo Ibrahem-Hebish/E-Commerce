@@ -1,6 +1,6 @@
 ﻿namespace ECommerce.Api.Controllers;
 
-public class UsersController(ISender sender) : AppControllerBase
+public class CustomersController(ISender sender) : AppControllerBase
 {
     [HttpGet]
     [Authorize(Roles = "Admin")]
@@ -43,6 +43,28 @@ public class UsersController(ISender sender) : AppControllerBase
     public async Task<IActionResult> Update(UpdateCustomerInfo command)
     {
         var result = await sender.Send(command);
+
+        return NewResponse(result);
+    }
+
+    [HttpGet("orders")]
+    [Authorize(Roles = "Customer")]
+    public async Task<IActionResult> GetOrders()
+    {
+        var customerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        var Id = Guid.Parse(customerId!);
+
+        var result = await sender.Send(new GetOrdersByCastomerIdQuery(Id));
+
+        return NewResponse(result);
+    }
+
+    [HttpGet("order-details/{orderId:Guid}")]
+    [Authorize(Roles = "Customer")]
+    public async Task<IActionResult> GetOrderDetails(Guid orderId)
+    {
+        var result = await sender.Send(new GetOrderDetailsQuery(orderId));
 
         return NewResponse(result);
     }

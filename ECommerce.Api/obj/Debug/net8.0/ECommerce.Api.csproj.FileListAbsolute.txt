@@ -443,3 +443,5 @@ C:\Users\Super magic\source\repos\ECommerce\ECommerce.Api\bin\Debug\net8.0\sv\Ha
 C:\Users\Super magic\source\repos\ECommerce\ECommerce.Api\bin\Debug\net8.0\tr-TR\Hangfire.Core.resources.dll
 C:\Users\Super magic\source\repos\ECommerce\ECommerce.Api\bin\Debug\net8.0\zh-TW\Hangfire.Core.resources.dll
 C:\Users\Super magic\source\repos\ECommerce\ECommerce.Api\bin\Debug\net8.0\zh\Hangfire.Core.resources.dll
+C:\Users\Super magic\source\repos\ECommerce\ECommerce.Api\bin\Debug\net8.0\Castle.Core.dll
+C:\Users\Super magic\source\repos\ECommerce\ECommerce.Api\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Proxies.dll

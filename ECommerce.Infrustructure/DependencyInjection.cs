@@ -1,4 +1,6 @@
-﻿using Hangfire;
+﻿using ECommerce.Domain.Repositories.OrderTracks;
+using ECommerce.Infrustructure.Persistance.Repositories.OrderTracks;
+using Hangfire;
 
 namespace ECommerce.Infrustructure;
 
@@ -42,6 +44,9 @@ public static class DependencyInjection
 
         services.AddScoped<IOrderCommandRepository, OrderCommandRepository>();
         services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
+
+        services.AddScoped<IOrderTrackCommandRepository, OrderTrackCommandRepository>();
+        services.AddScoped<IOrderTrackQueryRepository, OrderTrackQueryRepository>();
 
         services.AddTransient<IPasswordHashingService, PasswordHashingService>();
 

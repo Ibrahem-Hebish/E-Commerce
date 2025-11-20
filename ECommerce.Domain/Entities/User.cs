@@ -13,9 +13,9 @@ public class User : Entity, ISoftDeletable
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? UpdatedAt { get; set; }
     public Guid RoleId { get; set; }
-    public Role Role { get; set; }
-    public List<Order> Orders { get; set; } = [];
-    public List<UserToken> UserTokens { get; set; } = [];
+    public virtual Role Role { get; set; }
+    public virtual List<Order> Orders { get; set; } = [];
+    public virtual List<UserToken> UserTokens { get; set; } = [];
     public bool IsDeleted { get; set; }
     public DateTime? DeletedAt { get; set; }
 

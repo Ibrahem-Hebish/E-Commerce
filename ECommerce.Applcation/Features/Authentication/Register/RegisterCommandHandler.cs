@@ -40,7 +40,7 @@ public class RegisterCommandHandler(
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Success<string>("User registered successfully.");
+        return Success("User registered successfully.");
 
     }
 }
