@@ -42,7 +42,7 @@ public class LoginCommandHandler(
         }
         catch (Exception ex)
         {
-            Log.Error($"Error while login for user with Email {request.Email}.\nEX : {ex}");
+            Log.Error("Error while login for user with Email {email}.Full exception : {ex}", request.Email, ex);
 
             await unitOfWork.RollbackTransactionAsync();
 

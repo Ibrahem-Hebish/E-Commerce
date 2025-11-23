@@ -15,12 +15,7 @@ public static class DependencyInjection
         {
             opt
             .UseLazyLoadingProxies()
-            .UseSqlServer(configuration.GetConnectionString("ConnectionString"),
-             sqlOptions => sqlOptions.EnableRetryOnFailure(
-                        maxRetryCount: 10,
-                        maxRetryDelay: TimeSpan.FromSeconds(10),
-                        errorNumbersToAdd: null
-                    ));
+            .UseSqlServer(configuration.GetConnectionString("ConnectionString"));
         });
 
         services.AddScoped<GlobalExceptionHandler>();

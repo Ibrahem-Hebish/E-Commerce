@@ -1,6 +1,7 @@
 ﻿
 using ECommerce.Application.GenericRespons;
-using FluentValidation;
+using ECommerce.Application.Validations;
+using ECommerce.Domain.Common;
 using Serilog;
 
 namespace ECommerce.Api.Middlewares;
@@ -18,9 +19,8 @@ public class GlobalExceptionHandler : ResponseHandler, IMiddleware
         {
             Log.Error(ex.ToString());
 
-            if (typeof(InvalidOperationException) == ex.GetType() ||
-                typeof(ArgumentOutOfRangeException) == ex.GetType() ||
-                    typeof(ValidationException) == ex.GetType())
+            if (typeof(DomainException) == ex.GetType() ||
+                typeof(ValidationException) == ex.GetType())
             {
                 var response = BadRequest<string>(ex.Message);
 
@@ -30,7 +30,6 @@ public class GlobalExceptionHandler : ResponseHandler, IMiddleware
             }
 
             var serverError = InternalServerError<string>("An unexpected error occurred.");
-
 
             await context.Response.WriteAsJsonAsync(serverError);
         }

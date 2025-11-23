@@ -34,7 +34,7 @@ public class Order : Entity
     public void Confirm()
     {
         if (Status != OrderStatus.Pending)
-            throw new InvalidOperationException("Only pending orders can be confirmed.");
+            throw new DomainException("Only pending orders can be confirmed.");
 
         Status = OrderStatus.Completed;
 
@@ -45,7 +45,7 @@ public class Order : Entity
     public void Cancel()
     {
         if (Status != OrderStatus.Pending)
-            throw new InvalidOperationException("Only pending orders can be canceled.");
+            throw new DomainException("Only pending orders can be canceled.");
 
         Status = OrderStatus.Canceled;
 

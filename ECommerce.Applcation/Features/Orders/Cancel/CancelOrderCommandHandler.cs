@@ -1,9 +1,4 @@
-﻿using ECommerce.Domain.Enums;
-using ECommerce.Domain.Repositories.Orders;
-using ECommerce.Domain.Repositories.OrderTracks;
-using System.Security.Claims;
-
-namespace ECommerce.Application.Features.Orders.Cancel;
+﻿namespace ECommerce.Application.Features.Orders.Cancel;
 
 public class CancelOrderCommandHandler(
     IOrderQueryRepository orderQueryRepository,
@@ -64,6 +59,8 @@ public class CancelOrderCommandHandler(
         }
         catch (Exception ex)
         {
+            Log.Error("Error while canceling order with id {id}.Full exception {ex}", request.OrderId, ex);
+
             await unitOfWork.RollbackTransactionAsync();
 
             return InternalServerError<string>($"An error occurred while canceling the order: {ex.Message}");

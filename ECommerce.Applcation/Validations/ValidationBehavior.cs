@@ -1,7 +1,6 @@
 ﻿namespace ECommerce.Application.Validations;
 
 public class ValidationBehavior<TRequest, TResponse>(
-    IHttpContextAccessor httpContextAccessor,
     IEnumerable<IValidator<TRequest>> validators)
 
     : IPipelineBehavior<TRequest, TResponse>
@@ -27,12 +26,9 @@ public class ValidationBehavior<TRequest, TResponse>(
 
             if (failures.Count != 0)
             {
-                httpContextAccessor.HttpContext!.Response.StatusCode =
-                    (int)HttpStatusCode.BadRequest;
-
                 throw new ValidationException(failures
                      .Select(x => x.ErrorMessage)
-                     .FirstOrDefault());
+                     .FirstOrDefault()!.ToString());
             }
 
         }

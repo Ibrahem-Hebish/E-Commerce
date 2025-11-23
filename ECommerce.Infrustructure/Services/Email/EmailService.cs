@@ -46,7 +46,7 @@ public class EmailService(IOptions<EmailSettings> options,
         }
         catch
         {
-            Log.Warning($"Sending email to {emailContent.Email} failed");
+            Log.Warning("Sending email to {email} failed", emailContent.Email);
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using ECommerce.Domain.Enums;
-using ECommerce.Domain.Repositories.Orders;
-using ECommerce.Domain.Repositories.OrderTracks;
-
-namespace ECommerce.Application.Features.Orders.Create;
+﻿namespace ECommerce.Application.Features.Orders.Create;
 
 public class CreateOrderCommandHandler(
     IProductQueryRepository productQueryRepository,
@@ -76,7 +72,7 @@ public class CreateOrderCommandHandler(
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "error while creating new order");
+            Log.Error("error while creating new order for customer with id {id}.Full exception {ex}", request.CustomerId, ex);
 
             await unitOfWork.RollbackTransactionAsync();
 

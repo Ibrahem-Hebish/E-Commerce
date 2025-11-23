@@ -32,7 +32,7 @@ public class DeleteCategoryCommandHandler(
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Error while deleteing category with id {request.Id}");
+            Log.Error("Error while deleteing category with id {id}.Full exception : {ex}", request.Id, ex);
 
             return InternalServerError<string>("Try again later.");
         }

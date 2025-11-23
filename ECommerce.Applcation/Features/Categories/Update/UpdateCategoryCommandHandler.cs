@@ -37,7 +37,7 @@ public class UpdateCategoryCommandHandler(
         }
         catch (Exception ex)
         {
-            Log.Error(ex, $"Error while updating category with id {request.Id}");
+            Log.Error("Error while updating category with id {id}.Full exception : {ex}", request.Id, ex);
 
             return InternalServerError<GetCategoryDto>("Try again later.");
         }

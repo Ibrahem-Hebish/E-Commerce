@@ -4,7 +4,7 @@ public class DeleteProductCommandHandler(
     IProductQueryRepository productQueryRepository,
     IProductCommandRepository productCommandRepository,
     IUnitOfWork unitOfWork)
-    
+
     : ResponseHandler,
     IRequestHandler<DeleteProductCommand, Response<string>>
 {
@@ -25,7 +25,7 @@ public class DeleteProductCommandHandler(
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error occurred while deleting product");
+            Log.Error("Error occurred while deleting product with id {id}.Full exception", request.Id, ex);
 
             return InternalServerError<string>();
         }

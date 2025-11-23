@@ -1,6 +1,4 @@
-﻿using ECommerce.Application.Services.PasswordHashing;
-
-namespace ECommerce.Infrustructure.Persistance.Seeders;
+﻿namespace ECommerce.Infrustructure.Persistance.Seeders;
 public static class UserSeeder
 {
     public static async Task SeedAsync(AppDbContext dbContext, IPasswordHashingService passwordHashing)
@@ -10,7 +8,7 @@ public static class UserSeeder
 
         var adminRole = await dbContext.Roles.FirstOrDefaultAsync(r => r.Name == "Admin");
 
-        if (adminRole == null)
+        if (adminRole is null)
             throw new InvalidOperationException("Admin Role is missing in db.");
 
         var hashedPassword = passwordHashing.HashPasswordBCrypt("Hema123#");

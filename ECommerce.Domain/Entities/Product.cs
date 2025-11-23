@@ -1,4 +1,5 @@
-﻿using ECommerce.Domain.Common.SoftDeleting;
+﻿using ECommerce.Domain.Common;
+using ECommerce.Domain.Common.SoftDeleting;
 
 namespace ECommerce.Domain.Entities;
 
@@ -26,7 +27,7 @@ public class Product : ISoftDeletable
     {
         if (percentage < 0 || percentage > 100)
         {
-            throw new ArgumentOutOfRangeException(nameof(percentage), "Discount percentage must be between 0 and 100.");
+            throw new DomainException("Discount percentage must be between 0 and 100.");
         }
 
         HasDiscount = true;
@@ -43,7 +44,7 @@ public class Product : ISoftDeletable
     {
         if (newPrice < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(newPrice), "Price cannot be negative.");
+            throw new DomainException("Price cannot be negative.");
         }
 
         Price = newPrice;
@@ -53,7 +54,7 @@ public class Product : ISoftDeletable
     {
         if (quantity < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity to add cannot be negative.");
+            throw new DomainException("Quantity to add cannot be negative.");
         }
         StockQuantity += quantity;
         UpdatedAt = DateTime.UtcNow;
@@ -62,11 +63,11 @@ public class Product : ISoftDeletable
     {
         if (quantity < 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(quantity), "Quantity to reduce cannot be negative.");
+            throw new DomainException("Quantity to reduce cannot be negative.");
         }
         if (quantity > StockQuantity)
         {
-            throw new InvalidOperationException("Insufficient stock to reduce the requested quantity.");
+            throw new DomainException("Insufficient stock to reduce the requested quantity.");
         }
         StockQuantity -= quantity;
         UpdatedAt = DateTime.UtcNow;

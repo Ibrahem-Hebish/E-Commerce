@@ -42,7 +42,7 @@ public class CreateProductCommandHandler(
         }
         catch (Exception ex)
         {
-            Log.Error(ex, "Error occurred while creating product");
+            Log.Error("Error occurred while creating product.Full exception {ex}", ex);
 
             return InternalServerError<GetProductDto>();
 

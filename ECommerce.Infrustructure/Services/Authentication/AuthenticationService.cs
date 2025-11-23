@@ -1,4 +1,6 @@
-﻿namespace ECommerce.Infrustructure.Services.Authentication;
+﻿using ECommerce.Infrustructure.Services.Exceptions;
+
+namespace ECommerce.Infrustructure.Services.Authentication;
 
 public class AuthenticationService(
     IConfiguration configuration,
@@ -10,14 +12,7 @@ public class AuthenticationService(
     {
         string accessToken;
 
-        try
-        {
-            accessToken = CreateAccessToken(user);
-        }
-        catch
-        {
-            throw new KeyNotFoundException("Signing key is missing from configuration.");
-        }
+        accessToken = CreateAccessToken(user);
 
         UserToken userToken = new()
         {
@@ -31,11 +26,6 @@ public class AuthenticationService(
         return userToken;
     }
 
-    public Task<UserToken> RefreshToken(UserToken userToken)
-    {
-        throw new NotImplementedException();
-    }
-
     private string CreateAccessToken(User user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
@@ -43,7 +33,7 @@ public class AuthenticationService(
         var signingkey = configuration["jwtsigningkey"];
 
         if (string.IsNullOrWhiteSpace(signingkey))
-            throw new KeyNotFoundException("Signing key is missing from configuration.");
+            throw new ConfigurationException("Signing key is missing from configuration.");
 
         var tokenDescriptor = new SecurityTokenDescriptor()
         {
